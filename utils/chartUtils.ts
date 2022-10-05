@@ -95,5 +95,14 @@ export const getBaseConfig = (
         backgroundColor: colorTheme === "dark" ? "#374151" : "#0f172a",
       },
     },
+    scale: {
+      y: {
+        ticks: {
+          callback: function (val: string, index: number) {
+            return "${this.getLabelForValue(Number(val))}%";
+          },
+        },
+      },
+    }
   };
 };

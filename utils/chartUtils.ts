@@ -1,4 +1,3 @@
-import { ChartOptions } from "chart.js";
 import { ITax } from "../interfaces/ITax";
 import { getMonth } from "./dateUtils";
 
@@ -35,7 +34,7 @@ export const BORDER_COLORS = {
 export const chartBGColors = (len: number, type: Record<string, string>) =>
   Array.apply(null, Array(len)).map((val, idx) => type[idx]);
 
-export const getDataset = (taxes: ITax[], label: string):any => {
+export const getDataset = (taxes: ITax[], label: string): any => {
   return {
     labels: taxes.map((tax) =>
       tax.mon
@@ -65,10 +64,7 @@ export const getDataset = (taxes: ITax[], label: string):any => {
   };
 };
 
-export const getBaseConfig = (
-  colorTheme: string,
-  title: string
-): any => {
+export const getBaseConfig = (colorTheme: string, title: string): any => {
   return {
     responsive: true,
     plugins: {
@@ -95,14 +91,5 @@ export const getBaseConfig = (
         backgroundColor: colorTheme === "dark" ? "#374151" : "#0f172a",
       },
     },
-    scale: {
-      y: {
-        ticks: {
-          callback: function (val: string, index: number) {
-            return "${this.getLabelForValue(Number(val))}%";
-          },
-        },
-      },
-    }
   };
 };

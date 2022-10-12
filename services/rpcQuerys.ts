@@ -23,17 +23,42 @@ export const fetchBetweenMonthAnTaxTypeById = async (
   return { taxes, error };
 };
 
-export const fetchAllTaxesBetweenMonthsAndNotIn = async (
+export const fetchSumAllTaxesBetweenMonthsAndNotIn = async (
   ids: number[],
   f_date: string,
   t_date: string
 ) => {
   const rpcParams: [string, object] = [
-    "all_taxes_between_months_and_not_in",
+    "sum_all_taxes_between_months_and_not_in",
     { ids_tax_type: ids, f_date, t_date },
   ];
   const { data: taxes, error } = await getRows(rpcParams);
   return { taxes, error };
+};
+
+export const fetchAllTaxesBetweenMonths = async (
+  id_tax_type: number,
+  f_date: string,
+  t_date: string
+) => {
+  const rpcParams: [string, object] = [
+    "all_taxes_between_months",
+    { id_tax_type, f_date, t_date },
+  ];
+  const { data: taxes, error } = await getRows(rpcParams);
+  return { taxes, error };
+};
+
+export const fetchSumAllTaxesBetweenMonths = async (
+  f_date: string,
+  t_date: string
+) => {
+  const rpcParams: [string, object] = [
+    "sum_all_tax_between_months",
+    { f_date, t_date },
+  ];
+  const { data: total, error } = await getRows(rpcParams);
+  return { total, error };
 };
 
 const getRows = async (rpcParams: [string, object]) => {

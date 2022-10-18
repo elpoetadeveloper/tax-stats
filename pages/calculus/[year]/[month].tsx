@@ -1,5 +1,4 @@
 import { PostgrestError } from '@supabase/supabase-js';
-import { NextRequest } from 'next/server';
 import React from 'react'
 import { toast } from 'react-toastify';
 import { useTheme } from '../../../context/theme/useTheme';
@@ -83,40 +82,28 @@ const Month = ({
 
 export default Month
 
-export async function getServerSideProps({ req }:{ req:NextRequest}) {
- const paramsString = req.url.split('?')[1];
- const params = new URLSearchParams(paramsString);
- if(!params.has('year') || !params.has('month')) {
+export async function getServerSideProps(context: any) {
+  const { year, month } = context.query;
+  const { taxes, error } = await fetchTaxesByMonthAndYear({
+    year: parseInt(year),
+    month: getMonthNumber(month).n,
+  });
+  if (error) {
+    return {
+      props: {
+        taxes: [],
+        error: error,
+        year,
+        month,
+      },
+    };
+  }
   return {
     props: {
-      taxes: [],
-      year: '',
-      month: paramsString,
-      error: null
-    }
-  }
- }
- const y = params.get('year') || '2022';
- const m = params.get('month') || 'enero';
- const year = parseInt(y);
- const month = getMonthNumber(m).n;
- const {taxes, error} = await fetchTaxesByMonthAndYear({ year, month });
- if(error) {
-  return {
-    props: {
-      taxes: [],
-      error: error,
-      year: y,
-      month: m
-    }
-  }
- }
-  return {
-     props: {
       taxes,
-      year: y,
-      month: m,
-      error: null
-     }
-  }
+      year,
+      month,
+      error: null,
+    },
+  };
 }

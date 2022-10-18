@@ -91,7 +91,7 @@ export async function getServerSideProps({ req }:{ req:NextRequest}) {
     props: {
       taxes: [],
       year: '',
-      month: '',
+      month: paramsString,
       error: null
     }
   }
